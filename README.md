@@ -1,5 +1,5 @@
 
-# AI Trip Planner
+# AI Trip Planner 
 
 Welcome to the AI Trip Planner - a cutting-edge application designed to revolutionize the way you plan your trips! Powered by the latest advancements in AI through Gemini's APIs, this React application offers personalized trip recommendations, catering to a wide range of preferences including destination, duration, trip type, and budget.
 
