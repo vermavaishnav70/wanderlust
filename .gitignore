@@ -13,6 +13,7 @@ dist
 dist-ssr
 *.local
 .venv
+.venv313
 backend/.deps
 backend/*__pycache
 .codex
@@ -29,3 +30,6 @@ backend/**/__pycache__/
 *.njsproj
 *.sln
 *.sw?
+.pytest_cache/
+.coverage
+coverage/
