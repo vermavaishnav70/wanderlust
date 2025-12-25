@@ -25,7 +25,11 @@ class Settings:
     fallback_provider: str = "groq"
     request_timeout_s: float = 35.0
     gemini_model: str = "gemini-2.5-flash"
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
+    supabase_url: str | None = None
+    supabase_anon_key: str | None = None
+    log_level: str = "INFO"
+    log_file_path: str | None = None
 
     def __post_init__(self) -> None:
         if self.cors_origins is None:
@@ -55,5 +59,9 @@ def get_settings() -> Settings:
         fallback_provider=os.getenv("FALLBACK_PROVIDER", "groq"),
         request_timeout_s=float(os.getenv("REQUEST_TIMEOUT_S", "35")),
         gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
-        groq_model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
+        groq_model=os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"),
+        supabase_url=os.getenv("SUPABASE_URL"),
+        supabase_anon_key=os.getenv("SUPABASE_ANON_KEY"),
+        log_level=os.getenv("LOG_LEVEL", "INFO"),
+        log_file_path=os.getenv("LOG_FILE_PATH"),
     )
