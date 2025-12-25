@@ -30,7 +30,9 @@ flowchart LR
 
 ## Required Environment Variables
 
-- `CORS_ORIGINS=https://wanderlust-plum-eight.vercel.app`
+- `CORS_ORIGINS=http://localhost:5173` for local development
+- `SUPABASE_URL=...`
+- `SUPABASE_ANON_KEY=...`
 - `GEMINI_API_KEY=...` and/or `GROQ_API_KEY=...`
 
 ## Optional Environment Variables
@@ -38,6 +40,18 @@ flowchart LR
 - `PRIMARY_PROVIDER=gemini`
 - `FALLBACK_PROVIDER=groq`
 - `REQUEST_TIMEOUT_S=35`
+- `GEMINI_MODEL=gemini-2.5-flash`
+- `GROQ_MODEL=openai/gpt-oss-120b`
+- `LOG_LEVEL=INFO`
+- `LOG_FILE_PATH=./logs/backend.log`
+
+For the frontend, copy [/.env.example](/Users/vaishnavverma/Downloads/wanderlust/.env.example) and set:
+
+- `VITE_API_BASE_URL=http://localhost:8000`
+- `VITE_SUPABASE_URL=...`
+- `VITE_SUPABASE_ANON_KEY=...`
+
+For Supabase keys, prefer the newer publishable key (`sb_publishable_...`). A legacy `anon` key still works for this app because it uses the public client flow, but publishable is the current recommended option.
 
 ## Local Run
 
