@@ -1,60 +1,43 @@
 from typing import Any
 
-import httpx
+from langchain_google_genai import ChatGoogleGenerativeAI
 
+from app.schemas.trips import ProviderTripPlanData
 from app.services.providers.base import AIProvider, ProviderError
-from app.services.providers.utils import extract_json_object
 
 
 class GeminiProvider(AIProvider):
     def __init__(self, api_key: str, model_name: str, timeout_s: float):
         super().__init__(name="gemini", model_name=model_name)
-        self._api_key = api_key
-        self._timeout_s = timeout_s
+        self._structured_model = ChatGoogleGenerativeAI(
+            model=model_name,
+            api_key=api_key,
+            temperature=0.4,
+            request_timeout=timeout_s,
+        ).with_structured_output(
+            ProviderTripPlanData,
+            method="json_schema",
+        )
+
     async def generate_itinerary(
         self,
         *,
         system_instruction: str,
         prompt: str,
     ) -> dict[str, Any]:
-        endpoint = (
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{self.model_name}:generateContent?key={self._api_key}"
-        )
-        payload = {
-            "system_instruction": {
-                "parts": [{"text": system_instruction}],
-            },
-            "contents": [
-                {
-                    "parts": [{"text": prompt}],
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0.4,
-                "responseMimeType": "application/json",
-            },
-        }
+        try:
+            response = await self._structured_model.ainvoke(
+                [
+                    ("system", system_instruction),
+                    ("human", prompt),
+                ]
+            )
+        except Exception as error:  # noqa: BLE001
+            raise ProviderError(f"Gemini request failed: {error}") from error
 
-        async with httpx.AsyncClient(timeout=self._timeout_s) as client:
-            response = await client.post(endpoint, json=payload)
+        if hasattr(response, "model_dump"):
+            return response.model_dump(mode="json")
+        if isinstance(response, dict):
+            return response
 
-        if response.status_code >= 400:
-            print(response.text)
-            raise ProviderError("Gemini request failed.")
-
-        payload = response.json()
-        text_parts = (
-            payload.get("candidates", [{}])[0]
-            .get("content", {})
-            .get("parts", [])
-        )
-        raw_text = "".join(
-            part.get("text", "")
-            for part in text_parts
-            if isinstance(part, dict)
-        )
-        if not raw_text:
-            raise ProviderError("Gemini returned an empty response.")
-
-        return extract_json_object(raw_text)
+        raise ProviderError("Gemini returned an invalid structured response.")
