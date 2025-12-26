@@ -16,6 +16,7 @@
   "dependencies": {
     "@ai-sdk/groq": "^1.0.0",
     "@google/generative-ai": "^0.21.0",
+    "@supabase/supabase-js": "^2.101.0",
     "ai": "^4.0.1",
     "axios": "^1.6.7",
     "geist": "^1.2.2",
