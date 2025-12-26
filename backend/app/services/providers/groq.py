@@ -1,16 +1,24 @@
 from typing import Any
 
-import httpx
+from langchain_groq import ChatGroq
 
+from app.schemas.trips import ProviderTripPlanData
 from app.services.providers.base import AIProvider, ProviderError
-from app.services.providers.utils import extract_json_object
 
 
 class GroqProvider(AIProvider):
     def __init__(self, api_key: str, model_name: str, timeout_s: float):
         super().__init__(name="groq", model_name=model_name)
-        self._api_key = api_key
-        self._timeout_s = timeout_s
+        self._method = _resolve_structured_output_method(model_name)
+        self._structured_model = ChatGroq(
+            model=model_name,
+            api_key=api_key,
+            temperature=0.2,
+            timeout=timeout_s,
+        ).with_structured_output(
+            ProviderTripPlanData,
+            method=self._method,
+        )
 
     async def generate_itinerary(
         self,
@@ -18,37 +26,31 @@ class GroqProvider(AIProvider):
         system_instruction: str,
         prompt: str,
     ) -> dict[str, Any]:
-        payload = {
-            "model": self.model_name,
-            "response_format": {"type": "json_object"},
-            "messages": [
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": prompt},
-            ],
-            "temperature": 0.4,
-        }
-        headers = {
-            "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-        }
-
-        async with httpx.AsyncClient(timeout=self._timeout_s) as client:
-            response = await client.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                json=payload,
-                headers=headers,
+        try:
+            response = await self._structured_model.ainvoke(
+                [
+                    ("system", system_instruction),
+                    ("human", prompt),
+                ]
             )
+        except Exception as error:  # noqa: BLE001
+            raise ProviderError(f"Groq request failed: {error}") from error
 
-        if response.status_code >= 400:
-            raise ProviderError("Groq request failed.")
+        if hasattr(response, "model_dump"):
+            return response.model_dump(mode="json")
+        if isinstance(response, dict):
+            return response
 
-        payload = response.json()
-        raw_text = (
-            payload.get("choices", [{}])[0]
-            .get("message", {})
-            .get("content", "")
-        )
-        if not raw_text:
-            raise ProviderError("Groq returned an empty response.")
+        raise ProviderError("Groq returned an invalid structured response.")
 
-        return extract_json_object(raw_text)
+
+def _resolve_structured_output_method(model_name: str) -> str:
+    normalized_name = model_name.strip().lower()
+    if (
+        normalized_name.startswith("openai/gpt-oss")
+        or normalized_name.startswith("moonshotai/kimi-k2")
+        or normalized_name.startswith("meta-llama/llama-4")
+    ):
+        return "json_schema"
+
+    return "json_mode"
