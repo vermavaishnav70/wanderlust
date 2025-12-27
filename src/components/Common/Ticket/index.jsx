@@ -5,7 +5,6 @@ import TicketBodyMedium from "../../../assets/ticket-body-medium.svg";
 import "./style.css";
 import Button from "../Button";
 import Option from "../Option";
-import { useRef } from "react";
 const Ticket = ({
   headerText,
   inputPlaceholder,
