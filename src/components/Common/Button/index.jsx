@@ -1,5 +1,3 @@
-import React from "react";
-import arrow from "../../../assets/arrow-right.svg";
 import "./style.css";
 
 const ArrowIcon = () => {
@@ -20,19 +18,14 @@ const ArrowIcon = () => {
 };
 const Button = ({ text, onButtonClick, disabled }) => {
   return (
-    <div
+    <button
+      type="button"
       onClick={!disabled ? onButtonClick : null}
-      className={`button .unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-} ${disabled ? "disabled" : ""}`}
+      className={`button ${disabled ? "disabled" : ""}`}
+      disabled={disabled}
     >
       {text} <ArrowIcon />
-    </div>
+    </button>
   );
 };
 
