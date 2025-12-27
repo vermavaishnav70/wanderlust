@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Flight from "../../assets/flight.svg";
 import Button from "../Common/Button";
 import { data } from "../../utils/flightSvgData.jsx";
 import "./style.css";
@@ -43,7 +42,9 @@ const IntroScreen = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {...newData.items}
+          {newData.items.map((item, index) =>
+            cloneElement(item, { key: `flight-dot-${index}` })
+          )}
         </svg>
       </div>
 
