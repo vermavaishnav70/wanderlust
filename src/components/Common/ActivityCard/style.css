@@ -57,6 +57,14 @@
   line-height: 160%; /* 22.4px */
   letter-spacing: 0.1px;
   display: flex;
+  align-items: center;
   gap: 8px;
   width: 216px;
+}
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #adadad;
+  justify-self: center;
 }
