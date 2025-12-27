@@ -43,7 +43,7 @@
 .activity-cards-wrapper {
   overflow-x: scroll;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: var(--spacing-12px, 12px);
   align-self: stretch;
   margin: 0 12px 12px;
