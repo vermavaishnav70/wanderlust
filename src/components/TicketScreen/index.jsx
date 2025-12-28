@@ -20,19 +20,18 @@ const TicketScreen = () => {
 
   // Function to update input values
 
-const handleInputChange = (ticketNumber, value) => {
-  if (ticketNumber === 2 && value > 10) {
-    setError("The duration cannot exceed 10 days.");
-    return;
-  }
+  const handleInputChange = (ticketNumber, value) => {
+    if (ticketNumber === 2 && value > 10) {
+      setError("The duration cannot exceed 10 days.");
+      return;
+    }
 
-  // Clear error if validation passes
-  setError("");
-  setInputValues((prevValues) => ({
-    ...prevValues,
-    [ticketNumber]: value,
-  }));
-};
+    setError("");
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [ticketNumber]: value,
+    }));
+  };
 
   const nextTicket = () => {
     setActiveTicket((prev) => (prev < numTickets ? prev + 1 : 0));
@@ -88,7 +87,7 @@ const handleInputChange = (ticketNumber, value) => {
           }}
         ></div>
       </div>
-      <BrandHeader />
+      <BrandHeader showSavedTripsShortcut />
       {TicketDetails.map((ticket, index) => {
         const { x, y, rotation } = calculatePositionAndRotation(
           index,
@@ -98,19 +97,18 @@ const handleInputChange = (ticketNumber, value) => {
         );
         let inputValue = inputValues[ticket.ticketNumber] || "";
         return (
-          <>
+          <div key={ticket.ticketNumber}>
             <Ticket
               active={`${index === activeTicket ? "active" : ""} `}
-              key={ticket.ticketNumber}
               onButtonClick={
                 ticket.ticketNumber === 5 ? onPlanItineraryClick : nextTicket
               }
               style={{
-                transform: `translate(${x}px, ${
+                transform: `translate(calc(-50% + ${x}px), calc(-50% + ${
                   y +
                   (ticket.bodySize === "large" ? 120 : 0) +
                   (ticket.bodySize === "medium" ? 60 : 0)
-                }px) rotate(${rotation}deg)`,
+                }px)) rotate(${rotation}deg)`,
               }}
               inputValue={inputValue}
               handleInputChange={(value) =>
@@ -123,7 +121,7 @@ const handleInputChange = (ticketNumber, value) => {
                 {error}
               </div>
             )}
-          </>
+          </div>
         );
       })}
     </div>
