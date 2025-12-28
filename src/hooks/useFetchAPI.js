@@ -31,7 +31,7 @@ const useFetchAPI = (url, options = {}) => {
     if (url) {
       fetchData();
     }
-  }, [url]); // Depend on URL and options to refetch when they change
+  }, [options, url]); // Depend on URL and options to refetch when they change
 
   return { loading, data, error };
 };
