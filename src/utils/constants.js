@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 export const TicketDetails = [
   {
     ticketNumber: 1,
