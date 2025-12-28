@@ -3,26 +3,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 480px;
-  height: 1020px;
+  width: min(100vw, 480px);
+  min-height: 100vh;
+  height: 100vh;
   background-color: #192226;
   position: relative;
+  overflow: hidden;
 }
 
 /* Small devices (phones, 360px and down) */
 @media only screen and (max-width: 480px) {
   .introScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     height: 100vh;
-    aspect-ratio: auto;
     width: 100vw;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
-    background-color: #192226;
   }
 }
 .gradient {
@@ -78,7 +73,10 @@
   line-height: 160%; /* 25.6px */
 }
 .CTA-button {
+  display: flex;
+  justify-content: center;
   margin-top: 48px;
   width: 100%;
   z-index: 2;
+  text-decoration: none;
 }
