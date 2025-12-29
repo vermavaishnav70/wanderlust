@@ -1,0 +1,90 @@
+.auth-prompt {
+  width: calc(100% - 32px);
+  margin: 108px 16px 16px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-sizing: border-box;
+}
+
+.auth-prompt-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.auth-prompt-copy {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.auth-prompt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-prompt-google-button {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.auth-prompt-divider {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.auth-prompt-input {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 14px 16px;
+  font-size: 16px;
+  letter-spacing: 0;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.auth-prompt-input::placeholder {
+  font-size: 16px;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.auth-prompt-button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+}
+
+.auth-prompt-success,
+.auth-prompt-error {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.auth-prompt-success {
+  color: #a5ffb2;
+}
+
+.auth-prompt-error {
+  color: #ff9ea3;
+}
