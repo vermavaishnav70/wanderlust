@@ -1,0 +1,44 @@
+.weather-panel {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.weather-panel-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(248, 210, 127, 0.92);
+}
+
+.weather-panel-location {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f4f3ef;
+}
+
+.weather-day-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+  gap: 12px;
+}
+
+.weather-day-card {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px;
+}
+
+.weather-date,
+.weather-summary,
+.weather-temp {
+  color: rgba(244, 243, 239, 0.82);
+  font-size: 14px;
+}
