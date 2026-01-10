@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   animation: slideIn 1s ease-in-out;
-  background: url("../../assets/AI-Trip-Planner.png");
+  background: url("/assets/AI-Trip-Planner.png");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -16,6 +16,7 @@
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -40,14 +41,15 @@
     opacity: 0;
     transform: translateY(20px);
   }
-  10%, 90% {
+
+  10%,
+  90% {
     opacity: 1;
     transform: translateY(0);
   }
+
   100% {
     opacity: 0;
     transform: translateY(20px);
   }
 }
-
-

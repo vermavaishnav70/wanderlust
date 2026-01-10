@@ -12,11 +12,11 @@ const systemInstruction = `You are an AI assistant for a trip planner applicatio
 export const generateContentWithGroq = async (prompt) => {
   try {
     const groq = createGroq({ apiKey: import.meta.env.VITE_GROQ_API_KEY });
-      const response = await generateText({
-        model: groq("gemma2-9b-it"),
-        prompt: prompt,
-      });
-      console.log( response.text);
+    const response = await generateText({
+      model: groq("llama3-groq-70b-8192-tool-use-preview"),
+      prompt: prompt,
+    });
+    console.log(response.text);
     let cleanResponse = response.text
       .replace(/```json|```/g, "") // Remove markdown code fences
       .replace(/"price":\s*Variable/g, '"price": 0') // Replace "Variable" with a fallback
@@ -32,7 +32,7 @@ export const generateContentWithGemini = async (prompt) => {
   try {
     const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       systemInstruction,
     });
     const result = await model.generateContent(prompt);
