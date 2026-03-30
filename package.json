@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ecc:plan": "bash .codex/plugins/ecc/tools/plan.sh",
+    "ecc:tdd": "bash .codex/plugins/ecc/tools/tdd.sh",
+    "ecc:refactor": "bash .codex/plugins/ecc/tools/refactor.sh",
+    "ecc:full-dev": "bash .codex/plugins/ecc/tools/full-dev.sh"
   },
   "dependencies": {
     "@ai-sdk/groq": "^1.0.0",
