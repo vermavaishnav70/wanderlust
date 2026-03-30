@@ -5,12 +5,8 @@ import Button from "../Common/Button/index.jsx";
 import { Link, useLocation } from "react-router-dom";
 import Loading from "../Common/Loading/index.jsx";
 import ErrorScreen from "../ErrorScreen/index.jsx";
-import { createTripPrompt } from "../../utils/prompt.js";
 import { useEffect, useState } from "react";
-import {
-  generateContentWithGemini,
-  generateContentWithGroq,
-} from "../../utils/apiService.js";
+import { planTrip } from "../../utils/apiService.js";
 
 const ItineraryScreen = () => {
   const [data, setData] = useState(null);
@@ -18,55 +14,58 @@ const ItineraryScreen = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const { inputValues } = location.state || {};
-  const prompt = createTripPrompt({
-    where_to: inputValues[1],
-    number_of_days: inputValues[2],
-    trip_start: inputValues[3],
-    itinerary_type: inputValues[4],
-    budget: inputValues[5],
-    travel_preference: "",
-  });
 
-  // Function to fetch and set data
-  const fetchData = async () => {
-    setLoading(true);
-
-    // Check if data exists in sessionStorage
-    const storedData = sessionStorage.getItem("itineraryData");
-    if (storedData) {
-      setData(JSON.parse(storedData)); // Use stored data if available
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // Attempt to fetch data with Gemini
-      console.log('calling generateContentWithGemini');
-      const response = await generateContentWithGemini(prompt);
-      console.log("response", response);
-      setData(response);
-      sessionStorage.setItem("itineraryData", JSON.stringify(response)); // Store in sessionStorage
-    } catch (geminiError) {
-      try {
-        // Fallback to Groq if Gemini fails
-        console.log('calling generateContentWithGroq');
-        const backupResponse = await generateContentWithGroq(prompt);
-        console.log("backupResponse", backupResponse);
-        setData(backupResponse);
-        sessionStorage.setItem("itineraryData", JSON.stringify(backupResponse)); // Store in sessionStorage
-      } catch (rgroqError) {
-        setError(
-          `Failed to fetch data. ${geminiError.message || rgroqError.message}`
-        );
+  const tripRequest = inputValues
+    ? {
+        destination: inputValues[1],
+        number_of_days: Number(inputValues[2]),
+        trip_start: inputValues[3],
+        itinerary_type: inputValues[4],
+        budget: inputValues[5],
       }
-    } finally {
-      setLoading(false);
-    }
-  };
+    : null;
+
+  const tripRequestJson = tripRequest ? JSON.stringify(tripRequest) : null;
+  const cacheKey = tripRequest
+    ? `itineraryData:${tripRequestJson}`
+    : null;
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      const currentTripRequest = tripRequestJson
+        ? JSON.parse(tripRequestJson)
+        : null;
+
+      if (!currentTripRequest || !cacheKey) {
+        setError(
+          "Missing trip details. Please fill in your trip preferences again."
+        );
+        setLoading(false);
+        return;
+      }
+
+      const storedData = sessionStorage.getItem(cacheKey);
+      if (storedData) {
+        setData(JSON.parse(storedData));
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await planTrip(currentTripRequest);
+        setData(response);
+        sessionStorage.setItem(cacheKey, JSON.stringify(response));
+      } catch (requestError) {
+        setError(`Failed to fetch itinerary. ${requestError.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
-  }, []); // Empty dependency array to call fetchData only once when component mounts
+  }, [cacheKey, tripRequestJson]); // Refetch when trip details change
 
   const itineraries = data?.itinerary || [];
   if (data) {
@@ -81,7 +80,11 @@ const ItineraryScreen = () => {
         <Link
           to="/fill-details"
           className="back-button"
-          onClick={() => sessionStorage.removeItem("itineraryData")}
+          onClick={() => {
+            if (cacheKey) {
+              sessionStorage.removeItem(cacheKey);
+            }
+          }}
         >
           <Button text="Plan a new trip" />
         </Link>
@@ -97,6 +100,8 @@ const ItineraryScreen = () => {
       </div>
     );
   }
+
+  return null;
 };
 
 export default ItineraryScreen;

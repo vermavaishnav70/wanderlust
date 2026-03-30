@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: wanderlust-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://wanderlust-plum-eight.vercel.app
+      - key: PRIMARY_PROVIDER
+        value: gemini
+      - key: FALLBACK_PROVIDER
+        value: groq
+      - key: REQUEST_TIMEOUT_S
+        value: "35"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
