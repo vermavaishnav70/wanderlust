@@ -509,29 +509,31 @@ const ItineraryScreen = () => {
                       Version {version.version_number}
                     </div>
                     <div className="itinerary-history-actions">
-                      <button
-                        className="itinerary-history-action"
-                        disabled={previewingVersion === version.version_number}
-                        onClick={() => handlePreviewVersion(version.version_number)}
-                        type="button"
-                      >
-                        {previewingVersion === version.version_number
-                          ? "Loading..."
-                          : versionPreview?.version_number === version.version_number
-                            ? "Hide preview"
-                            : "Preview"}
-                      </button>
                       {version.version_number !== savedTrip.current_version ? (
-                        <button
-                          className="itinerary-history-action"
-                          disabled={restoringVersion === version.version_number}
-                          onClick={() => handleRestoreVersion(version.version_number)}
-                          type="button"
-                        >
-                          {restoringVersion === version.version_number
-                            ? "Restoring..."
-                            : "Restore as latest"}
-                        </button>
+                        <>
+                          <button
+                            className="itinerary-history-action"
+                            disabled={previewingVersion === version.version_number}
+                            onClick={() => handlePreviewVersion(version.version_number)}
+                            type="button"
+                          >
+                            {previewingVersion === version.version_number
+                              ? "Loading..."
+                              : versionPreview?.version_number === version.version_number
+                                ? "Hide preview"
+                                : "Preview"}
+                          </button>
+                          <button
+                            className="itinerary-history-action"
+                            disabled={restoringVersion === version.version_number}
+                            onClick={() => handleRestoreVersion(version.version_number)}
+                            type="button"
+                          >
+                            {restoringVersion === version.version_number
+                              ? "Restoring..."
+                              : "Restore as latest"}
+                          </button>
+                        </>
                       ) : (
                         <span className="itinerary-history-current">Current</span>
                       )}
