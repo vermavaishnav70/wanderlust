@@ -614,109 +614,119 @@ const ItineraryScreen = () => {
     return (
       <div className="itinerary-screen">
         <BrandHeader />
-        <div className="itinerary-toolbar">
-          <div className="itinerary-toolbar-copy">
-            {isSavedMode ? (
-              <>
-                <div className="itinerary-toolbar-title">
-                  {savedTrip?.title || "Saved itinerary"}
-                </div>
-                <div className="itinerary-toolbar-subtitle">
-                  {savedTrip
-                    ? `Version ${savedTrip.current_version} · ${savedTrip.destination}`
-                    : "Loading saved trip"}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="itinerary-toolbar-title">
-                  {tripRequest?.destination || "Your itinerary"}
-                </div>
-                <div className="itinerary-toolbar-subtitle">
-                  Save this draft to revisit and keep editing it later.
-                </div>
-              </>
-            )}
-          </div>
-          <div className="itinerary-toolbar-actions">
-            {!isSavedMode ? (
-              <button
-                className="itinerary-action-button primary"
-                disabled={saving}
-                onClick={handleSave}
-                type="button"
-              >
-                {saving ? "Saving..." : user ? "Save trip" : "Save with sign in"}
-              </button>
-            ) : (
-              <button
-                className="itinerary-action-button danger"
-                disabled={deleting}
-                onClick={handleDelete}
-                type="button"
-              >
-                {deleting ? "Deleting..." : "Delete trip"}
-              </button>
-            )}
-            <Link className="itinerary-action-button secondary" to="/saved-trips">
-              Saved trips
-            </Link>
-          </div>
-          {saveError ? <div className="itinerary-inline-error">{saveError}</div> : null}
-        </div>
-        {showAuthPrompt && !user ? (
-          <AuthPrompt
-            title="Save this trip to your account"
-            description="Sign in with a magic link and we’ll save this itinerary automatically as soon as your session is ready."
-          />
-        ) : null}
-        {panelTabs.length ? (
-          <div className="itinerary-support-shell">
-            {panelTabs.length > 1 ? (
-              <div className="itinerary-support-tabs">
-                {panelTabs.map((tab) => (
+        <div className="itinerary-content-grid">
+          <div className="itinerary-main-col">
+            <div className="itinerary-toolbar">
+              <div className="itinerary-toolbar-copy">
+                {isSavedMode ? (
+                  <>
+                    <div className="itinerary-toolbar-title">
+                      {savedTrip?.title || "Saved itinerary"}
+                    </div>
+                    <div className="itinerary-toolbar-subtitle">
+                      {savedTrip
+                        ? `Version ${savedTrip.current_version} · ${savedTrip.destination}`
+                        : "Loading saved trip"}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="itinerary-toolbar-title">
+                      {tripRequest?.destination || "Your itinerary"}
+                    </div>
+                    <div className="itinerary-toolbar-subtitle">
+                      Save this draft to revisit and keep editing it later.
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="itinerary-toolbar-actions">
+                {!isSavedMode ? (
                   <button
-                    className={`itinerary-support-tab ${
-                      activePanel === tab.id ? "active" : ""
-                    } ${tab.id === PANEL_WEATHER && weatherLoading ? "loading" : ""}`}
-                    key={tab.id}
-                    onClick={() => setActivePanel(tab.id)}
+                    className="itinerary-action-button primary"
+                    disabled={saving}
+                    onClick={handleSave}
                     type="button"
                   >
-                    {activePanel === tab.id || (tab.id === PANEL_WEATHER && weatherLoading) ? (
-                      <span
-                        className={`itinerary-support-tab-active-dot ${
-                          tab.id === PANEL_WEATHER && weatherLoading
-                            ? "loading"
-                            : ""
-                        }`}
-                      />
-                    ) : null}
-                    {tab.label}
+                    {saving ? "Saving..." : user ? "Save trip" : "Save with sign in"}
                   </button>
-                ))}
+                ) : (
+                  <button
+                    className="itinerary-action-button danger"
+                    disabled={deleting}
+                    onClick={handleDelete}
+                    type="button"
+                  >
+                    {deleting ? "Deleting..." : "Delete trip"}
+                  </button>
+                )}
+                <Link className="itinerary-action-button secondary" to="/saved-trips">
+                  Saved trips
+                </Link>
+              </div>
+              {saveError ? <div className="itinerary-inline-error">{saveError}</div> : null}
+            </div>
+            
+            {showAuthPrompt && !user ? (
+              <AuthPrompt
+                title="Save this trip to your account"
+                description="Sign in with a magic link and we’ll save this itinerary automatically as soon as your session is ready."
+              />
+            ) : null}
+            
+            <div className="cards-wrapper">
+              {itineraries?.map((itinerary, index) => {
+                return <Card itinerary={itinerary} key={index} />;
+              })}
+            </div>
+            
+            <Link
+              to="/fill-details"
+              onClick={() => {
+                if (cacheKey && !isSavedMode) {
+                  sessionStorage.removeItem(cacheKey);
+                }
+              }}
+            >
+              <Button text="Plan a new trip" style={{margin: "0px", marginTop: "20px", width: "100%"}} />
+            </Link>
+          </div>
+
+          <div className="itinerary-sidebar-col">
+            {panelTabs.length ? (
+              <div className="itinerary-support-shell">
+                {panelTabs.length > 1 ? (
+                  <div className="itinerary-support-tabs">
+                    {panelTabs.map((tab) => (
+                      <button
+                        className={`itinerary-support-tab ${
+                          activePanel === tab.id ? "active" : ""
+                        } ${tab.id === PANEL_WEATHER && weatherLoading ? "loading" : ""}`}
+                        key={tab.id}
+                        onClick={() => setActivePanel(tab.id)}
+                        type="button"
+                      >
+                        {activePanel === tab.id || (tab.id === PANEL_WEATHER && weatherLoading) ? (
+                          <span
+                            className={`itinerary-support-tab-active-dot ${
+                              tab.id === PANEL_WEATHER && weatherLoading
+                                ? "loading"
+                                : ""
+                            }`}
+                          />
+                        ) : null}
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                <div className="itinerary-support-panel">{renderSupportPanel()}</div>
               </div>
             ) : null}
-            <div className="itinerary-support-panel">{renderSupportPanel()}</div>
+            
+            <ChatPanel messages={messages} onSend={handleEdit} sending={editing} />
           </div>
-        ) : null}
-        <div className="cards-wrapper">
-          {itineraries?.map((itinerary, index) => {
-            return <Card itinerary={itinerary} key={index} />;
-          })}
         </div>
-        <ChatPanel messages={messages} onSend={handleEdit} sending={editing} />
-        <Link
-          to="/fill-details"
-          className="back-button"
-          onClick={() => {
-            if (cacheKey && !isSavedMode) {
-              sessionStorage.removeItem(cacheKey);
-            }
-          }}
-        >
-          <Button className="back-button" text="Plan a new trip" />
-        </Link>
       </div>
     );
   }

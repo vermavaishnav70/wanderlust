@@ -2,17 +2,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 480px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   min-height: 100vh;
-  background: #0b0c0e;
+  background: transparent;
   color: #fff;
   overflow-y: auto;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 
 .saved-trips-toolbar,
 .saved-trips-heading,
 .saved-trips-list {
-  width: calc(100% - 32px);
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -59,9 +63,9 @@
 }
 
 .saved-trips-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
   margin: 18px 0 40px;
 }
 
@@ -188,8 +192,3 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-@media only screen and (max-width: 480px) {
-  .saved-trips-screen {
-    width: 100vw;
-  }
-}

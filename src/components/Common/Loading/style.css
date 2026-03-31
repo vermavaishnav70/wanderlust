@@ -1,9 +1,10 @@
 .cards-container-loading {
   position: relative;
-  width: 480px;
-  height: 1120px;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
   animation: slideIn 0.5s ease-in-out;
   background: url("/assets/AI-Trip-Planner.png");
   background-repeat: no-repeat;
@@ -100,12 +101,5 @@
 
   100% {
     background-position: 100% 0;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .cards-container-loading {
-    width: 100vw;
-    height: 100vh;
   }
 }

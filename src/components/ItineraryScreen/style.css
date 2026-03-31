@@ -2,13 +2,54 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 480px;
-  height: 1120px;
-
+  width: 100%;
+  height: 100vh;
   background: #0b0c0e;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
-  overflow-y: scroll;
+}
+
+.itinerary-content-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.itinerary-main-col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.itinerary-sidebar-col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .itinerary-content-grid {
+    flex-direction: row;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .itinerary-main-col {
+    width: 65%;
+  }
+
+  .itinerary-sidebar-col {
+    width: 35%;
+    position: sticky;
+    top: 96px;
+    max-height: calc(100vh - 96px);
+    overflow-y: auto;
+    padding-bottom: 32px;
+  }
 }
 
 .cards-wrapper {
@@ -23,7 +64,7 @@
 }
 
 .itinerary-toolbar {
-  width: calc(100% - 32px);
+  width: 100%;
   margin-top: 96px;
   padding: 18px 20px;
   border-radius: 20px;
@@ -84,7 +125,7 @@
 }
 
 .itinerary-support-shell {
-  width: calc(100% - 32px);
+  width: 100%;
   margin-top: 16px;
 }
 
@@ -142,7 +183,7 @@
 }
 
 .itinerary-history-grid {
-  width: calc(100% - 32px);
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
@@ -236,7 +277,7 @@
 }
 
 .itinerary-preview-shell {
-  width: calc(100% - 32px);
+  width: 100%;
   margin-top: 16px;
   padding: 18px 20px;
   border-radius: 20px;
@@ -313,7 +354,7 @@
 }
 
 .itinerary-skeleton-card {
-  width: calc(100% - 32px);
+  width: 100%;
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.04);
   overflow: hidden;
@@ -361,9 +402,9 @@
   .itinerary-screen {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     background: #0b0c0e;
   }
 

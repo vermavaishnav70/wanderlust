@@ -16,13 +16,14 @@ const ArrowIcon = () => {
     </svg>
   );
 };
-const Button = ({ text, onButtonClick, disabled }) => {
+const Button = ({ text, onButtonClick, disabled, style }) => {
   return (
     <button
       type="button"
       onClick={!disabled ? onButtonClick : null}
       className={`button ${disabled ? "disabled" : ""}`}
       disabled={disabled}
+      style={style}
     >
       {text} <ArrowIcon />
     </button>

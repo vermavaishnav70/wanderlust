@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(100vw, 480px);
+  width: 100%;
   min-height: 100vh;
   background: #192226;
   position: relative;

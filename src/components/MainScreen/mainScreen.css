@@ -2,25 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 480px;
-  height: 1120px;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
   position: relative;
   background-color: #192226;
   overflow: hidden;
-}
-
-/* Small devices (phones, 480px and down) */
-@media only screen and (max-width: 480px) {
-  .mainScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    /* background: url("../../assets/AI-Trip-Planner.png"); */
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-  }
+  background-repeat: no-repeat;
+  background-size: cover;
 }

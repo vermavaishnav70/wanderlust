@@ -3,23 +3,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: min(100vw, 480px);
+  width: 100%;
   min-height: 100vh;
   height: 100vh;
   background-color: #192226;
   position: relative;
   overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-/* Small devices (phones, 360px and down) */
-@media only screen and (max-width: 480px) {
-  .introScreen {
-    height: 100vh;
-    width: 100vw;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-}
 .gradient {
   position: absolute;
   top: 0;
