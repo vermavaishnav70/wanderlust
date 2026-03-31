@@ -670,29 +670,31 @@ const ItineraryScreen = () => {
         ) : null}
         {panelTabs.length ? (
           <div className="itinerary-support-shell">
-            <div className="itinerary-support-tabs">
-              {panelTabs.map((tab) => (
-                <button
-                  className={`itinerary-support-tab ${
-                    activePanel === tab.id ? "active" : ""
-                  } ${tab.id === PANEL_WEATHER && weatherLoading ? "loading" : ""}`}
-                  key={tab.id}
-                  onClick={() => setActivePanel(tab.id)}
-                  type="button"
-                >
-                  {activePanel === tab.id || (tab.id === PANEL_WEATHER && weatherLoading) ? (
-                    <span
-                      className={`itinerary-support-tab-active-dot ${
-                        tab.id === PANEL_WEATHER && weatherLoading
-                          ? "loading"
-                          : ""
-                      }`}
-                    />
-                  ) : null}
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            {panelTabs.length > 1 ? (
+              <div className="itinerary-support-tabs">
+                {panelTabs.map((tab) => (
+                  <button
+                    className={`itinerary-support-tab ${
+                      activePanel === tab.id ? "active" : ""
+                    } ${tab.id === PANEL_WEATHER && weatherLoading ? "loading" : ""}`}
+                    key={tab.id}
+                    onClick={() => setActivePanel(tab.id)}
+                    type="button"
+                  >
+                    {activePanel === tab.id || (tab.id === PANEL_WEATHER && weatherLoading) ? (
+                      <span
+                        className={`itinerary-support-tab-active-dot ${
+                          tab.id === PANEL_WEATHER && weatherLoading
+                            ? "loading"
+                            : ""
+                        }`}
+                      />
+                    ) : null}
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <div className="itinerary-support-panel">{renderSupportPanel()}</div>
           </div>
         ) : null}

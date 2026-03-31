@@ -91,7 +91,8 @@
 .itinerary-support-tabs {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .itinerary-support-tab {
@@ -106,7 +107,11 @@
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .itinerary-support-tab.active {
