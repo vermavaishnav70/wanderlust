@@ -188,6 +188,11 @@ Important:
 
 ## Running the App
 
+Note:
+
+- The hosted backend can go idle after a period of inactivity on the free hosting tier.
+- If the app seems slow on the first request, wait a few seconds and try again while the backend wakes up.
+
 ### Start the backend
 
 ```bash
